@@ -3,5 +3,5 @@ The coding language used in our game codeventure, right now being developed by J
 
 Check out codeventure at https://github.com/tri-c-games/codeventure and our discord server at https://discord.gg/axcSMdZ
 
-#About the language
+# About the language
 OwOscript is a mix between a dynamically typed and a statically typed language that aims to teach coding to young people. It requires you to use brackets and semicolons like a statically typed language but allows you to define variables like in a dynamically typed language.
