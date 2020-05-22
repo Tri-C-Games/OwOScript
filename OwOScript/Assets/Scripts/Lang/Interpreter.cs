@@ -40,7 +40,7 @@ public class Interpreter : MonoBehaviour
         for (int i = 0; i < _lines.Length; i++)
         {
             // Remove all line breaks
-            _lines[i] = Regex.Replace(lines[i],"\n\r|\n|\r", string.Empty);
+            _lines[i] = _lines[i].Replace(System.Environment.NewLine, string.Empty);
         }
         return _lines;
     }
