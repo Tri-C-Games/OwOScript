@@ -1,5 +1,5 @@
 # OwOScript
-The coding language used in our game codeventure, right now being developed by JixS4v with the occasional help of Mariothedog. This repo was separated from the regular codeventure branch for commodity and organization, but codeventure will be updated and bundled always with the last stable version+
+The coding language used in our game codeventure, right now being developed by JixS4v with the occasional help of Mariothedog. This repo was separated from the regular codeventure branch for commodity and organization, but codeventure will be updated and bundled always with the last stable version
 
 Check out codeventure at https://github.com/tri-c-games/codeventure and our discord server at https://discord.gg/axcSMdZ
 
