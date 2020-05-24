@@ -82,7 +82,7 @@ public class Interpreter : MonoBehaviour
         if (variables.TryGetValue(_expression, out dynamic _value))
 		{
 			//it tries to parse, if this operation succeeds, it returns the value
-			results = _value;
+			results = _value.ToString();
 			return true;
 		}
 		else
