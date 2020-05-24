@@ -3,6 +3,8 @@ using UnityEngine;
 using System.IO;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using Mathos.Parser;
+using System;
 
 public class Interpreter : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class Interpreter : MonoBehaviour
     private string code;
     private string[] lines;
     readonly string fileName = @"Assets\Scripts\Lang\main.owo";
+	MathParser Math = new MathParser();
 
     void Start()
     {
@@ -79,18 +82,38 @@ public class Interpreter : MonoBehaviour
 	//this parses mathematical operations and variable value uses 
 	bool ParseExpressions(string _expression, out string results)
 	{
-        if (variables.TryGetValue(_expression, out dynamic _value))
+		Dictionary<string, dynamic> vars = new Dictionary<string, dynamic>();
+		string _toParse = Regex.Replace(_expression, "(|)", string.Empty);
+		string[] _Args = _toParse.Split(new[] {'+','-','/','*'});
+		foreach (var item in _Args)
 		{
-			//it tries to parse, if this operation succeeds, it returns the value
-			results = _value.ToString();
-			return true;
+			if(variables.TryGetValue(item,out dynamic value))
+			{
+				if (vars.ContainsKey(item))
+				{
+					break;
+				}
+				else if(variables[item] is double)
+				{
+					vars[item] = variables[item];
+				}
+				else
+				{
+					ThrowError();
+					results = null;
+					return false;
+				}
+			}
 		}
-		else
+		string preParsed=_expression;
+		foreach (var item in vars)
 		{
-			//or else it returns the previous value
-			results = _expression;
-			return true;
-		} 
+			preParsed = Regex.Replace(preParsed, item.Key, item.Value.ToString());
+		}
+		preParsed = Regex.Replace(preParsed, ",", ".");
+		string parsed = Math.ProgrammaticallyParse(preParsed).ToString();
+		results = parsed;
+		return true;
 	}
 
     void AddVariable(string _key, string _value)
