@@ -58,7 +58,7 @@ public class Interpreter : MonoBehaviour
             string[] _split = Regex.Split(_line,"=");
             _key = _split[0].Trim(' ', '\t');
             _value = _split[1].Trim(' ', '\t');
-			if (ParseExpressions(_value,out string _output))
+			if (ParseNumbers(_value,out string _output))
 			{
 				AddVariable(_key, _output);
 			}
@@ -80,7 +80,7 @@ public class Interpreter : MonoBehaviour
         }
     }
 	//this parses mathematical operations and variable value uses 
-	bool ParseExpressions(string _expression, out string results)
+	bool ParseNumbers(string _expression, out string results)
 	{
 		Dictionary<string, dynamic> vars = new Dictionary<string, dynamic>();
 		string _toParse = Regex.Replace(_expression, "(|)", string.Empty);
