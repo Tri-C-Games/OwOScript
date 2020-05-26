@@ -58,7 +58,7 @@ public class Interpreter : MonoBehaviour
             string[] _split = Regex.Split(_line,"=");
             _key = _split[0].Trim(' ', '\t');
             _value = _split[1].Trim(' ', '\t');
-			if (ParseNumbers(_value,out string _output))
+			if (ParseNumbers(_value,out double _output))
 			{
 				AddVariable(_key, _output);
 			}
@@ -80,7 +80,7 @@ public class Interpreter : MonoBehaviour
         }
     }
 	//this parses mathematical operations and variable value uses 
-	bool ParseNumbers(string _expression, out string results)
+	bool ParseNumbers(string _expression, out double results)
 	{
 		Dictionary<string, dynamic> vars = new Dictionary<string, dynamic>();
 		string _toParse = Regex.Replace(_expression, "(|)", string.Empty);
@@ -100,7 +100,7 @@ public class Interpreter : MonoBehaviour
 				else
 				{
 					ThrowError();
-					results = null;
+					results = 0;
 					return false;
 				}
 			}
@@ -111,12 +111,12 @@ public class Interpreter : MonoBehaviour
 			preParsed = Regex.Replace(preParsed, item.Key, item.Value.ToString());
 		}
 		preParsed = Regex.Replace(preParsed, ",", ".");
-		string parsed = Math.ProgrammaticallyParse(preParsed).ToString();
+		double parsed = Math.ProgrammaticallyParse(preParsed);
 		results = parsed;
 		return true;
 	}
 
-    void AddVariable(string _key, string _value)
+    void ParseVariable(string _key, string _value)
     {
         // TODO: Fix this bug - `pleasefix = "this""should""not""work";` - As the variable's value suggests, this should not work.
 
@@ -145,7 +145,7 @@ public class Interpreter : MonoBehaviour
         {
             parsedValue = _resultBool;
         }
-        else if (_value.ToLower() == "none")
+        else if (_value.ToLower() == "None")
         {
             parsedValue = null;
         }
@@ -157,9 +157,13 @@ public class Interpreter : MonoBehaviour
             return;
         }
 
-        // Add the variable to the variables dictionary. If the variable does not already exist it will add it automatically.
-        variables[_key] = parsedValue;
+		// Add the variable to the variables dictionary. If the variable does not already exist it will add it automatically.
+		AddVariable(_key, parsedValue);
     }
+	void AddVariable(string _key, dynamic _var)
+	{
+		variables[_key] = _var;
+	}
 
     void ThrowError()
     {
