@@ -58,14 +58,7 @@ public class Interpreter : MonoBehaviour
             string[] _split = Regex.Split(_line,"=");
             _key = _split[0].Trim(' ', '\t');
             _value = _split[1].Trim(' ', '\t');
-			if (ParseNumbers(_value,out double _output))
-			{
-				AddVariable(_key, _output);
-			}
-			else
-			{
-				AddVariable(_key, _value);
-			}
+			ParseVariable(_key, _value);
         }
         // Statements (If/Methods/Loops)
         else if (_line.Contains("(") && _line.Contains(")"))
@@ -136,9 +129,16 @@ public class Interpreter : MonoBehaviour
             parsedValue = _value;
         }
         // Numbers
-        else if (double.TryParse(_value, out double _resultString))
+        else if (Regex.IsMatch(_value, "1|2|3|4|5|6|7|8|9|0"))
         {
-            parsedValue = _resultString;
+            if(ParseNumbers(_value,out double results))
+			{
+				parsedValue = results;
+			}
+			else
+			{
+				parsedValue = null;
+			}
         }
         // Booleans (True/False)
         else if (bool.TryParse(_value, out bool _resultBool))
